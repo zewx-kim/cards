@@ -11,13 +11,18 @@
             text-align: center;
             padding: 20px;
         }
+        h1, h3 {
+            color: #333;
+        }
         .card-container {
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
+            margin-top: 20px;
         }
         .card {
             margin: 10px;
+            text-align: center;
         }
         .card img {
             width: 120px;
@@ -26,30 +31,84 @@
             box-shadow: 0 4px 6px rgba(0,0,0,0.1);
             cursor: pointer;
         }
+        .info {
+            font-size: 13px;
+            margin-top: 6px;
+            color: #1a237e;
+        }
+        .desc {
+            font-size: 12px;
+            color: #444;
+        }
     </style>
 </head>
 <body>
-    <h1>🔮 주역 타로 - 54장 중 0509장을 선택하세요</h1>
+    <h1 id="main-title">🔮 주역 타로 - 54장 중 4장을 선택하세요</h1>
+    <h3 id="subtitle"></h3>
     <div class="card-container" id="card-container"></div>
 
     <script>
-        document.addEventListener("DOMContentLoaded", function () {
+        const cardData = Array.from({length: 54}, (_, i) => {
+            const num = String(i + 1).padStart(2, '0');
+            return {
+                number: num,
+                name: "카드 " + num,
+                description: "카드 " + num + "의 설명입니다.",
+                category: (i + 1) % 5 === 0 ? "운명카드" : "길괘",
+                image: `imgs/card${num}.png`
+            };
+        });
+
+        const labels = ["총운", "아침운", "오후운", "저녁운"];
+        const selected = [];
+
+        function shuffle(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
+        function displayCards() {
             const container = document.getElementById("card-container");
-            for (let i = 1; i <= 54; i++) {
-                const img = document.createElement("img");
-                const num = i.toString().padStart(2, '0');
-                img.src = `imgs/select2.jpg`;
-                img.dataset.real = `imgs/card${num}.png`;
-                img.onclick = function () {
-                    alert("선택한 카드가 열립니다!!\n연세 주타 마스터님께 리딩을 들으셔요!");
-                    this.src = this.dataset.real;
-                }
+            const shuffled = shuffle([...cardData]);
+            container.innerHTML = "";
+            shuffled.forEach((card, idx) => {
                 const wrapper = document.createElement("div");
                 wrapper.className = "card";
+
+                const img = document.createElement("img");
+                img.src = "imgs/select2.jpg";
+                img.dataset.real = card.image;
+                img.onclick = function () {
+                    if (selected.length >= 4 || selected.includes(idx)) return;
+                    selected.push(idx);
+                    img.src = card.image;
+                    alert("선택한 카드가 열립니다!!\n연세 주타 마스터님께 리딩을 들으셔요!");
+
+                    const info = document.createElement("div");
+                    info.className = "info";
+                    info.textContent = labels[selected.length - 1] + ": " + card.name;
+                    wrapper.appendChild(info);
+
+                    const desc = document.createElement("div");
+                    desc.className = "desc";
+                    desc.textContent = card.description + " (" + card.category + ")";
+                    wrapper.appendChild(desc);
+
+                    if (selected.length === 4) {
+                        document.getElementById("main-title").textContent = "🔮 주역 타로 리딩 ✨";
+                        document.getElementById("subtitle").textContent = "(총운 → 아침운 → 오후운 → 저녁운)";
+                    }
+                };
+
                 wrapper.appendChild(img);
                 container.appendChild(wrapper);
-            }
-        });
+            });
+        }
+
+        document.addEventListener("DOMContentLoaded", displayCards);
     </script>
 </body>
 </html>
