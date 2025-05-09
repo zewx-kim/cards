@@ -3,7 +3,7 @@
 <html lang="ko">
 <head>
   <meta charset="UTF-8">
-  <title>주역 타로 리딩</title>
+  <title>주역 타로 리딩~</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <style>
     body {
@@ -23,13 +23,13 @@
     }
     .card {
       margin: 10px;
-      width: 110px;
+      width: 120px; transition: transform 0.3s ease;
     }
     .card img {
       width: 100%;
       border-radius: 6px;
       box-shadow: 0 2px 8px rgba(0,0,0,0.2);
-      cursor: pointer;
+      cursor: pointer; transform: scale(1);
     }
     .info {
       font-size: 12px;
@@ -44,7 +44,17 @@
     #reading-title {
       margin-top: 40px;
     }
-  </style>
+  
+    .card.selected img {
+      animation: glow 0.7s ease-out;
+      box-shadow: 0 0 12px 4px #ffd700;
+    }
+    @keyframes glow {
+      0% { box-shadow: 0 0 0px #ffd700; transform: scale(1); }
+      50% { box-shadow: 0 0 16px #ffd700; transform: scale(1.08); }
+      100% { box-shadow: 0 0 6px #ffd700; transform: scale(1); }
+    }
+    </style>
 </head>
 <body>
   <h2 id="main-title">🔮 주역 타로 - 54장 중 4장을 선택하세요</h2>
@@ -78,7 +88,10 @@
         img.dataset.real = card.image;
         img.dataset.idx = idx;
 
+        img.onmouseenter = () => { img.style.transform = 'scale(1.08)'; };
+        img.onmouseleave = () => { img.style.transform = 'scale(1)'; };
         img.onclick = () => {
+          div.classList.add('selected');
           if (selected.length >= 4 || selected.includes(idx)) return;
           img.src = card.image;
           selected.push(idx);
