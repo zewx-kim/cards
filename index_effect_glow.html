@@ -1,0 +1,156 @@
+
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>주역 타로 리딩</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body {
+      font-family: sans-serif;
+      background: #f9f9f9;
+      text-align: center;
+      padding: 20px;
+    }
+    h2 {
+      margin-top: 10px;
+    }
+    .cards, .result {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-top: 20px;
+    }
+    .card {
+      margin: 10px;
+      width: 120px; transition: transform 0.3s ease;
+    }
+    .card img {
+      width: 100%;
+      border-radius: 6px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+      cursor: pointer; transform: scale(1);
+    }
+    .info {
+      font-size: 12px;
+      margin-top: 5px;
+      color: #1a237e;
+    }
+    .desc {
+      font-size: 11px;
+      color: #555;
+      white-space: pre-line;
+    }
+    #reading-title {
+      margin-top: 40px;
+    }
+  
+    .card.selected img {
+      animation: glow 0.7s ease-out;
+      box-shadow: 0 0 12px 4px #ffd700;
+    }
+    @keyframes glow {
+      0% { box-shadow: 0 0 0px #ffd700; transform: scale(1); }
+      50% { box-shadow: 0 0 16px #ffd700; transform: scale(1.08); }
+      100% { box-shadow: 0 0 6px #ffd700; transform: scale(1); }
+    }
+    </style>
+</head>
+<body>
+  <h2 id="main-title">🔮 주역 타로 - 54장 중 4장을 선택하세요</h2>
+  <div class="cards" id="card-container"></div>
+
+  <h2 id="reading-title" style="display:none;">🔮 주역 타로 리딩 ✨<br>(총운 → 아침운 → 오후운 → 저녁운)</h2>
+  <div class="result" id="selected-cards"></div>
+
+  <script>
+    const cardData = [{"number": "01", "name": "중천건", "description": "", "category": "소길괘", "image": "imgs/card01.png"}, {"number": "02", "name": "중지곤", "description": "", "category": "평괘", "image": "imgs/card02.png"}, {"number": "03", "name": "수뢰둔", "description": "", "category": "4대난괘", "image": "imgs/card03.png"}, {"number": "04", "name": "산수몰", "description": "", "category": "대흉괘", "image": "imgs/card04.png"}, {"number": "05", "name": "수천수", "description": "", "category": "평괘", "image": "imgs/card05.png"}, {"number": "06", "name": "천수송", "description": "", "category": "소흉괘", "image": "imgs/card06.png"}, {"number": "07", "name": "지수사", "description": "", "category": "평괘", "image": "imgs/card07.png"}, {"number": "08", "name": "수지비", "description": "", "category": "평괘", "image": "imgs/card08.png"}, {"number": "09", "name": "풍천소축", "description": "", "category": "소길괘", "image": "imgs/card09.png"}, {"number": "10", "name": "천택리", "description": "", "category": "평괘", "image": "imgs/card10.png"}, {"number": "11", "name": "지천태", "description": "", "category": "대길괘", "image": "imgs/card11.png"}, {"number": "12", "name": "천지비", "description": "", "category": "대흉괘", "image": "imgs/card12.png"}, {"number": "13", "name": "천화동인", "description": "", "category": "대길괘", "image": "imgs/card13.png"}, {"number": "14", "name": "화천대유", "description": "", "category": "소길괘", "image": "imgs/card14.png"}, {"number": "15", "name": "지산겸", "description": "", "category": "평괘", "image": "imgs/card15.png"}, {"number": "16", "name": "뇌지예", "description": "", "category": "평괘", "image": "imgs/card16.png"}, {"number": "17", "name": "택뢰수", "description": "", "category": "평괘", "image": "imgs/card17.png"}, {"number": "18", "name": "산풍고", "description": "", "category": "대흉괘", "image": "imgs/card18.png"}, {"number": "19", "name": "지택림", "description": "", "category": "소길괘", "image": "imgs/card19.png"}, {"number": "20", "name": "풍지관", "description": "", "category": "평괘", "image": "imgs/card20.png"}, {"number": "21", "name": "화뢰서합", "description": "", "category": "평괘", "image": "imgs/card21.png"}, {"number": "22", "name": "산화비", "description": "", "category": "평괘", "image": "imgs/card22.png"}, {"number": "23", "name": "산지박", "description": "", "category": "대흉괘", "image": "imgs/card23.png"}, {"number": "24", "name": "지뢰복", "description": "", "category": "소길괘", "image": "imgs/card24.png"}, {"number": "25", "name": "천뢰무망", "description": "", "category": "평괘", "image": "imgs/card25.png"}, {"number": "26", "name": "산천대축", "description": "", "category": "대길괘", "image": "imgs/card26.png"}, {"number": "27", "name": "산뢰이", "description": "", "category": "평괘", "image": "imgs/card27.png"}, {"number": "28", "name": "택풍대과", "description": "", "category": "대흉괘", "image": "imgs/card28.png"}, {"number": "29", "name": "중수감", "description": "", "category": "4대난괘", "image": "imgs/card29.png"}, {"number": "30", "name": "중화리", "description": "", "category": "평괘", "image": "imgs/card30.png"}, {"number": "31", "name": "택산함", "description": "", "category": "소길괘", "image": "imgs/card31.png"}, {"number": "32", "name": "뇌풍항", "description": "", "category": "평괘", "image": "imgs/card32.png"}, {"number": "33", "name": "천산둔", "description": "", "category": "대흉괘", "image": "imgs/card33.png"}, {"number": "34", "name": "뇌천대장", "description": "", "category": "평괘", "image": "imgs/card34.png"}, {"number": "35", "name": "화지진", "description": "", "category": "소길괘", "image": "imgs/card35.png"}, {"number": "36", "name": "지화명이", "description": "", "category": "대흉괘", "image": "imgs/card36.png"}, {"number": "37", "name": "풍화가인", "description": "", "category": "평괘", "image": "imgs/card37.png"}, {"number": "38", "name": "화택규", "description": "", "category": "소흉괘", "image": "imgs/card38.png"}, {"number": "39", "name": "수산건", "description": "", "category": "4대난괘", "image": "imgs/card39.png"}, {"number": "40", "name": "뇌수해", "description": "", "category": "소길괘", "image": "imgs/card40.png"}, {"number": "41", "name": "산택손", "description": "", "category": "소흉괘", "image": "imgs/card41.png"}, {"number": "42", "name": "풍뢰익", "description": "", "category": "소길괘", "image": "imgs/card42.png"}, {"number": "43", "name": "택천쾌", "description": "", "category": "평괘", "image": "imgs/card43.png"}, {"number": "44", "name": "천풍구", "description": "", "category": "평괘", "image": "imgs/card44.png"}, {"number": "45", "name": "택지췌", "description": "", "category": "평괘", "image": "imgs/card45.png"}, {"number": "46", "name": "지풍승", "description": "", "category": "소길괘", "image": "imgs/card46.png"}, {"number": "47", "name": "택수곤", "description": "", "category": "4대난괘", "image": "imgs/card47.png"}, {"number": "48", "name": "수풍정", "description": "", "category": "평괘", "image": "imgs/card48.png"}, {"number": "49", "name": "택화혁", "description": "", "category": "평괘", "image": "imgs/card49.png"}, {"number": "50", "name": "화풍정", "description": "", "category": "평괘", "image": "imgs/card50.png"}, {"number": "51", "name": "중뢰진", "description": "", "category": "평괘", "image": "imgs/card51.png"}, {"number": "52", "name": "중산간", "description": "", "category": "대흉괘", "image": "imgs/card52.png"}, {"number": "53", "name": "풍산점", "description": "", "category": "소길괘", "image": "imgs/card53.png"}, {"number": "54", "name": "뇌택귀매", "description": "", "category": "평괘", "image": "imgs/card54.png"}];
+    const labels = ["총운", "아침운", "오후운", "저녁운"];
+    let selected = [];
+
+    function shuffle(arr) {
+      for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+      }
+      return arr;
+    }
+
+    function drawCards() {
+      const shuffled = shuffle([...cardData]);
+      const container = document.getElementById("card-container");
+      shuffled.forEach((card, idx) => {
+        const div = document.createElement("div");
+        div.className = "card";
+
+        const img = document.createElement("img");
+        img.src = "imgs/select2.jpg";
+        img.dataset.real = card.image;
+        img.dataset.idx = idx;
+
+        img.onmouseenter = () => { img.style.transform = 'scale(1.08)'; };
+        img.onmouseleave = () => { img.style.transform = 'scale(1)'; };
+        img.onclick = () => {
+          div.classList.add('selected');
+          if (selected.length >= 4 || selected.includes(idx)) return;
+          img.src = card.image;
+          selected.push(idx);
+
+          const info = document.createElement("div");
+          info.className = "info";
+          info.textContent = labels[selected.length - 1] + ": " + card.name;
+
+          const desc = document.createElement("div");
+          desc.className = "desc";
+          desc.textContent = card.category + "\n연세 주타 마스터님께 리딩을 들으셔요!";
+
+          div.appendChild(info);
+          div.appendChild(desc);
+
+          alert("선택한 카드가 열립니다!!\n연세 주타 마스터님께 리딩을 들으셔요!");
+
+          if (selected.length === 4) {
+            document.getElementById("main-title").style.display = "none";
+            document.getElementById("card-container").style.display = "none";
+            showResults(shuffled);
+          }
+        };
+
+        div.appendChild(img);
+        container.appendChild(div);
+      });
+    }
+
+    function showResults(cards) {
+      const result = document.getElementById("selected-cards");
+      const title = document.getElementById("reading-title");
+      result.innerHTML = "";
+      title.style.display = "block";
+
+      selected.forEach((idx, i) => {
+        const card = cards[idx];
+        const div = document.createElement("div");
+        div.className = "card";
+
+        const img = document.createElement("img");
+        img.src = card.image;
+
+        const info = document.createElement("div");
+        info.className = "info";
+        info.textContent = labels[i] + ": " + card.name;
+
+        const desc = document.createElement("div");
+        desc.className = "desc";
+        desc.textContent = card.category + "\n연세 주타 마스터님께 리딩을 들으셔요!";
+
+        div.appendChild(img);
+        div.appendChild(info);
+        div.appendChild(desc);
+        result.appendChild(div);
+      });
+    }
+
+    document.addEventListener("DOMContentLoaded", drawCards);
+  </script>
+</body>
+</html>
