@@ -3,7 +3,7 @@
 <html lang="ko">
 <head>
   <meta charset="UTF-8">
-  <title>주역 타로 리딩~</title>
+  <title>레나쌤과 함께하는 주역 타로 리딩</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <style>
     body {
@@ -16,6 +16,7 @@
       margin-top: 10px;
     }
     .cards, .result {
+  gap: 10px;
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
@@ -26,6 +27,9 @@
       width: 120px; transition: transform 0.3s ease;
     }
     .card img {
+      width: 120px;
+      height: 160px;
+      height: 160px;
       width: 100%;
       border-radius: 6px;
       box-shadow: 0 2px 8px rgba(0,0,0,0.2);
@@ -112,7 +116,7 @@
           if (selected.length === 4) {
             document.getElementById("main-title").style.display = "none";
             document.getElementById("card-container").style.display = "none";
-            showResults(shuffled);
+            setTimeout(() => showResults(shuffled), 500);
           }
         };
 
