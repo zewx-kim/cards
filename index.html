@@ -38,6 +38,7 @@
     .desc {
       font-size: 11px;
       color: #555;
+      white-space: pre-line;
     }
     #reading-title {
       margin-top: 40px;
@@ -97,7 +98,7 @@
 
           const desc = document.createElement("div");
           desc.className = "desc";
-          desc.textContent = card.description + " (" + card.category + ")";
+          desc.textContent = card.description + " (" + card.category + ")\\n연세 주타 마스터님께 리딩을 들으셔요!";
 
           div.appendChild(info);
           div.appendChild(desc);
@@ -136,7 +137,7 @@
 
         const desc = document.createElement("div");
         desc.className = "desc";
-        desc.textContent = card.description + " (" + card.category + ")";
+        desc.textContent = card.description + " (" + card.category + ")\\n연세 주타 마스터님께 리딩을 들으셔요!";
 
         div.appendChild(img);
         div.appendChild(info);
