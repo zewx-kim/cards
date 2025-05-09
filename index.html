@@ -1,114 +1,151 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <meta charset="UTF-8">
-    <title>주역 타로</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <style>
-        body {
-            background: #f3f3f3;
-            font-family: 'Arial', sans-serif;
-            text-align: center;
-            padding: 20px;
-        }
-        h1, h3 {
-            color: #333;
-        }
-        .card-container {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            margin-top: 20px;
-        }
-        .card {
-            margin: 10px;
-            text-align: center;
-        }
-        .card img {
-            width: 120px;
-            height: auto;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-            cursor: pointer;
-        }
-        .info {
-            font-size: 13px;
-            margin-top: 6px;
-            color: #1a237e;
-        }
-        .desc {
-            font-size: 12px;
-            color: #444;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <title>주역 타로 리딩</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body {
+      font-family: sans-serif;
+      background: #f9f9f9;
+      text-align: center;
+      padding: 20px;
+    }
+    h2 {
+      margin-top: 10px;
+    }
+    .cards, .result {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-top: 20px;
+    }
+    .card {
+      margin: 10px;
+      width: 110px;
+    }
+    .card img {
+      width: 100%;
+      border-radius: 6px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+      cursor: pointer;
+    }
+    .info {
+      font-size: 12px;
+      margin-top: 5px;
+      color: #1a237e;
+    }
+    .desc {
+      font-size: 11px;
+      color: #555;
+    }
+    #reading-title {
+      margin-top: 40px;
+    }
+  </style>
 </head>
 <body>
-    <h1 id="main-title">🔮 주역 타로 - 54장 중 4장을 선택하세요</h1>
-    <h3 id="subtitle"></h3>
-    <div class="card-container" id="card-container"></div>
+  <h2 id="main-title">🔮 주역 타로 - 54장 중 4장을 선택하세요</h2>
+  <div class="cards" id="card-container"></div>
 
-    <script>
-        const cardData = Array.from({length: 54}, (_, i) => {
-            const num = String(i + 1).padStart(2, '0');
-            return {
-                number: num,
-                name: "카드 " + num,
-                description: "카드 " + num + "의 설명입니다.",
-                category: (i + 1) % 5 === 0 ? "운명카드" : "길괘",
-                image: `imgs/card${num}.png`
-            };
-        });
+  <h2 id="reading-title" style="display:none;">🔮 주역 타로 리딩 ✨<br>(총운 → 아침운 → 오후운 → 저녁운)</h2>
+  <div class="result" id="selected-cards"></div>
 
-        const labels = ["총운", "아침운", "오후운", "저녁운"];
-        const selected = [];
+  <script>
+    const cardData = Array.from({length: 54}, (_, i) => {
+      const num = String(i + 1).padStart(2, '0');
+      return {
+        number: num,
+        name: "카드 " + num,
+        description: "카드 " + num + "의 설명입니다.",
+        category: (i + 1) % 5 === 0 ? "운명카드" : "길괘",
+        image: `imgs/card${num}.png`
+      };
+    });
 
-        function shuffle(array) {
-            for (let i = array.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [array[i], array[j]] = [array[j], array[i]];
-            }
-            return array;
-        }
+    const labels = ["총운", "아침운", "오후운", "저녁운"];
+    let selected = [];
 
-        function displayCards() {
-            const container = document.getElementById("card-container");
-            const shuffled = shuffle([...cardData]);
-            container.innerHTML = "";
-            shuffled.forEach((card, idx) => {
-                const wrapper = document.createElement("div");
-                wrapper.className = "card";
+    function shuffle(arr) {
+      for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+      }
+      return arr;
+    }
 
-                const img = document.createElement("img");
-                img.src = "imgs/select2.jpg";
-                img.dataset.real = card.image;
-                img.onclick = function () {
-                    if (selected.length >= 4 || selected.includes(idx)) return;
-                    selected.push(idx);
-                    img.src = card.image;
-                    alert("선택한 카드가 열립니다!!\n연세 주타 마스터님께 리딩을 들으셔요!");
+    function drawCards() {
+      const shuffled = shuffle([...cardData]);
+      const container = document.getElementById("card-container");
+      shuffled.forEach((card, idx) => {
+        const div = document.createElement("div");
+        div.className = "card";
 
-                    const info = document.createElement("div");
-                    info.className = "info";
-                    info.textContent = labels[selected.length - 1] + ": " + card.name;
-                    wrapper.appendChild(info);
+        const img = document.createElement("img");
+        img.src = "imgs/select2.jpg";
+        img.dataset.real = card.image;
+        img.dataset.idx = idx;
 
-                    const desc = document.createElement("div");
-                    desc.className = "desc";
-                    desc.textContent = card.description + " (" + card.category + ")";
-                    wrapper.appendChild(desc);
+        img.onclick = () => {
+          if (selected.length >= 4 || selected.includes(idx)) return;
+          img.src = card.image;
+          selected.push(idx);
 
-                    if (selected.length === 4) {
-                        document.getElementById("main-title").textContent = "🔮 주역 타로 리딩 ✨";
-                        document.getElementById("subtitle").textContent = "(총운 → 아침운 → 오후운 → 저녁운)";
-                    }
-                };
+          const info = document.createElement("div");
+          info.className = "info";
+          info.textContent = labels[selected.length - 1] + ": " + card.name;
 
-                wrapper.appendChild(img);
-                container.appendChild(wrapper);
-            });
-        }
+          const desc = document.createElement("div");
+          desc.className = "desc";
+          desc.textContent = card.description + " (" + card.category + ")";
 
-        document.addEventListener("DOMContentLoaded", displayCards);
-    </script>
+          div.appendChild(info);
+          div.appendChild(desc);
+
+          alert("선택한 카드가 열립니다!!\\n연세 주타 마스터님께 리딩을 들으셔요!");
+
+          if (selected.length === 4) {
+            document.getElementById("main-title").style.display = "none";
+            document.getElementById("card-container").style.display = "none";
+            showResults(shuffled);
+          }
+        };
+
+        div.appendChild(img);
+        container.appendChild(div);
+      });
+    }
+
+    function showResults(cards) {
+      const result = document.getElementById("selected-cards");
+      const title = document.getElementById("reading-title");
+      result.innerHTML = "";
+      title.style.display = "block";
+
+      selected.forEach((idx, i) => {
+        const card = cards[idx];
+        const div = document.createElement("div");
+        div.className = "card";
+
+        const img = document.createElement("img");
+        img.src = card.image;
+
+        const info = document.createElement("div");
+        info.className = "info";
+        info.textContent = labels[i] + ": " + card.name;
+
+        const desc = document.createElement("div");
+        desc.className = "desc";
+        desc.textContent = card.description + " (" + card.category + ")";
+
+        div.appendChild(img);
+        div.appendChild(info);
+        div.appendChild(desc);
+        result.appendChild(div);
+      });
+    }
+
+    document.addEventListener("DOMContentLoaded", drawCards);
+  </script>
 </body>
 </html>
