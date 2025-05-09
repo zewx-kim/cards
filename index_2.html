@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>주역 타로</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+<div id="title-container">
+  <h2>🔮 주역 타로 - 54장 중 4장을 선택하세요</h2>
+</div>
+<div id="card-container"></div>
+
+<script>
+const cardData = [{"번호": "1", "이름": "카드 1", "설명": "카드 1의 설명입니다.", "소속": "평괘", "이미지": "https://zewx-kim.github.io/cards/imgs/card01.png"}, {"번호": "2", "이름": "카드 2", "설명": "카드 2의 설명입니다.", "소속": "평괘", "이미지": "https://zewx-kim.github.io/cards/imgs/card02.png"}, {"번호": "3", "이름": "카드 3", "설명": "카드 3의 설명입니다.", "소속": "평괘", "이미지": "https://zewx-kim.github.io/cards/imgs/card03.png"}, {"번호": "4", "이름": "카드 4", "설명": "카드 4의 설명입니다.", "소속": "평괘", "이미지": "https://zewx-kim.github.io/cards/imgs/card04.png"}, {"번호": "5", "이름": "카드 5", "설명": "카드 5의 설명입니다.", "소속": "길괘", "이미지": "https://zewx-kim.github.io/cards/imgs/card05.png"}, {"번호": "6", "이름": "카드 6", "설명": "카드 6의 설명입니다.", "소속": "평괘", "이미지": "https://zewx-kim.github.io/cards/imgs/card06.png"}, {"번호": "7", "이름": "카드 7", "설명": "카드 7의 설명입니다.", "소속": "평괘", "이미지": "https://zewx-kim.github.io/cards/imgs/card07.png"}, {"번호": "8", "이름": "카드 8", "설명": "카드 8의 설명입니다.", "소속": "평괘", "이미지": "https://zewx-kim.github.io/cards/imgs/card08.png"}, {"번호": "9", "이름": "카드 9", "설명": "카드 9의 설명입니다.", "소속": "평괘", "이미지": "https://zewx-kim.github.io/cards/imgs/card09.png"}, {"번호": "10", "이름": "카드 10", "설명": "카드 10의 설명입니다.", "소속": "길괘", "이미지": "https://zewx-kim.github.io/cards/imgs/card10.png"}, {"번호": "11", "이름": "카드 11", "설명": "카드 11의 설명입니다.", "소속": "평괘", "이미지": "https://zewx-kim.github.io/cards/imgs/card11.png"}, {"번호": "12", "이름": "카드 12", "설명": "카드 12의 설명입니다.", "소속": "평괘", "이미지": "https://zewx-kim.github.io/cards/imgs/card12.png"}, {"번호": "13", "이름": "카드 13", "설명": "카드 13의 설명입니다.", "소속": "평괘", "이미지": "https://zewx-kim.github.io/cards/imgs/card13.png"}, {"번호": "14", "이름": "카드 14", "설명": "카드 14의 설명입니다.", "소속": "평괘", "이미지": "https://zewx-kim.github.io/cards/imgs/card14.png"}, {"번호": "15", "이름": "카드 15", "설명": "카드 15의 설명입니다.", "소속": "길괘", "이미지": "https://zewx-kim.github.io/cards/imgs/card15.png"}, {"번호": "16", "이름": "카드 16", "설명": "카드 16의 설명입니다.", "소속": "평괘", "이미지": "https://zewx-kim.github.io/cards/imgs/card16.png"}, {"번호": "17", "이름": "카드 17", "설명": "카드 17의 설명입니다.", "소속": "평괘", "이미지": "https://zewx-kim.github.io/cards/imgs/card17.png"}, {"번호": "18", "이름": "카드 18", "설명": "카드 18의 설명입니다.", "소속": "평괘", "이미지": "https://zewx-kim.github.io/cards/imgs/card18.png"}, {"번호": "19", "이름": "카드 19", "설명": "카드 19의 설명입니다.", "소속": "평괘", "이미지": "https://zewx-kim.github.io/cards/imgs/card19.png"}, {"번호": "20", "이름": "카드 20", "설명": "카드 20의 설명입니다.", "소속": "길괘", "이미지": "https://zewx-kim.github.io/cards/imgs/card20.png"}, {"번호": "21", "이름": "카드 21", "설명": "카드 21의 설명입니다.", "소속": "평괘", "이미지": "https://zewx-kim.github.io/cards/imgs/card21.png"}, {"번호": "22", "이름": "카드 22", "설명": "카드 22의 설명입니다.", "소속": "평괘", "이미지": "https://zewx-kim.github.io/cards/imgs/card22.png"}, {"번호": "23", "이름": "카드 23", "설명": "카드 23의 설명입니다.", "소속": "평괘", "이미지": "https://zewx-kim.github.io/cards/imgs/card23.png"}, {"번호": "24", "이름": "카드 24", "설명": "카드 24의 설명입니다.", "소속": "평괘", "이미지": "https://zewx-kim.github.io/cards/imgs/card24.png"}, {"번호": "25", "이름": "카드 25", "설명": "카드 25의 설명입니다.", "소속": "길괘", "이미지": "https://zewx-kim.github.io/cards/imgs/card25.png"}, {"번호": "26", "이름": "카드 26", "설명": "카드 26의 설명입니다.", "소속": "평괘", "이미지": "https://zewx-kim.github.io/cards/imgs/card26.png"}, {"번호": "27", "이름": "카드 27", "설명": "카드 27의 설명입니다.", "소속": "평괘", "이미지": "https://zewx-kim.github.io/cards/imgs/card27.png"}, {"번호": "28", "이름": "카드 28", "설명": "카드 28의 설명입니다.", "소속": "평괘", "이미지": "https://zewx-kim.github.io/cards/imgs/card28.png"}, {"번호": "29", "이름": "카드 29", "설명": "카드 29의 설명입니다.", "소속": "평괘", "이미지": "https://zewx-kim.github.io/cards/imgs/card29.png"}, {"번호": "30", "이름": "카드 30", "설명": "카드 30의 설명입니다.", "소속": "길괘", "이미지": "https://zewx-kim.github.io/cards/imgs/card30.png"}, {"번호": "31", "이름": "카드 31", "설명": "카드 31의 설명입니다.", "소속": "평괘", "이미지": "https://zewx-kim.github.io/cards/imgs/card31.png"}, {"번호": "32", "이름": "카드 32", "설명": "카드 32의 설명입니다.", "소속": "평괘", "이미지": "https://zewx-kim.github.io/cards/imgs/card32.png"}, {"번호": "33", "이름": "카드 33", "설명": "카드 33의 설명입니다.", "소속": "평괘", "이미지": "https://zewx-kim.github.io/cards/imgs/card33.png"}, {"번호": "34", "이름": "카드 34", "설명": "카드 34의 설명입니다.", "소속": "평괘", "이미지": "https://zewx-kim.github.io/cards/imgs/card34.png"}, {"번호": "35", "이름": "카드 35", "설명": "카드 35의 설명입니다.", "소속": "길괘", "이미지": "https://zewx-kim.github.io/cards/imgs/card35.png"}, {"번호": "36", "이름": "카드 36", "설명": "카드 36의 설명입니다.", "소속": "평괘", "이미지": "https://zewx-kim.github.io/cards/imgs/card36.png"}, {"번호": "37", "이름": "카드 37", "설명": "카드 37의 설명입니다.", "소속": "평괘", "이미지": "https://zewx-kim.github.io/cards/imgs/card37.png"}, {"번호": "38", "이름": "카드 38", "설명": "카드 38의 설명입니다.", "소속": "평괘", "이미지": "https://zewx-kim.github.io/cards/imgs/card38.png"}, {"번호": "39", "이름": "카드 39", "설명": "카드 39의 설명입니다.", "소속": "평괘", "이미지": "https://zewx-kim.github.io/cards/imgs/card39.png"}, {"번호": "40", "이름": "카드 40", "설명": "카드 40의 설명입니다.", "소속": "길괘", "이미지": "https://zewx-kim.github.io/cards/imgs/card40.png"}, {"번호": "41", "이름": "카드 41", "설명": "카드 41의 설명입니다.", "소속": "평괘", "이미지": "https://zewx-kim.github.io/cards/imgs/card41.png"}, {"번호": "42", "이름": "카드 42", "설명": "카드 42의 설명입니다.", "소속": "평괘", "이미지": "https://zewx-kim.github.io/cards/imgs/card42.png"}, {"번호": "43", "이름": "카드 43", "설명": "카드 43의 설명입니다.", "소속": "평괘", "이미지": "https://zewx-kim.github.io/cards/imgs/card43.png"}, {"번호": "44", "이름": "카드 44", "설명": "카드 44의 설명입니다.", "소속": "평괘", "이미지": "https://zewx-kim.github.io/cards/imgs/card44.png"}, {"번호": "45", "이름": "카드 45", "설명": "카드 45의 설명입니다.", "소속": "길괘", "이미지": "https://zewx-kim.github.io/cards/imgs/card45.png"}, {"번호": "46", "이름": "카드 46", "설명": "카드 46의 설명입니다.", "소속": "평괘", "이미지": "https://zewx-kim.github.io/cards/imgs/card46.png"}, {"번호": "47", "이름": "카드 47", "설명": "카드 47의 설명입니다.", "소속": "평괘", "이미지": "https://zewx-kim.github.io/cards/imgs/card47.png"}, {"번호": "48", "이름": "카드 48", "설명": "카드 48의 설명입니다.", "소속": "평괘", "이미지": "https://zewx-kim.github.io/cards/imgs/card48.png"}, {"번호": "49", "이름": "카드 49", "설명": "카드 49의 설명입니다.", "소속": "평괘", "이미지": "https://zewx-kim.github.io/cards/imgs/card49.png"}, {"번호": "50", "이름": "카드 50", "설명": "카드 50의 설명입니다.", "소속": "길괘", "이미지": "https://zewx-kim.github.io/cards/imgs/card50.png"}, {"번호": "51", "이름": "카드 51", "설명": "카드 51의 설명입니다.", "소속": "평괘", "이미지": "https://zewx-kim.github.io/cards/imgs/card51.png"}, {"번호": "52", "이름": "카드 52", "설명": "카드 52의 설명입니다.", "소속": "평괘", "이미지": "https://zewx-kim.github.io/cards/imgs/card52.png"}, {"번호": "53", "이름": "카드 53", "설명": "카드 53의 설명입니다.", "소속": "평괘", "이미지": "https://zewx-kim.github.io/cards/imgs/card53.png"}, {"번호": "54", "이름": "카드 54", "설명": "카드 54의 설명입니다.", "소속": "평괘", "이미지": "https://zewx-kim.github.io/cards/imgs/card54.png"}];
+const labels = ["총운", "아침운", "오후운", "저녁운"];
+const selectedCards = [];
+const maxSelections = 4;
+const backImage = "https://zewx-kim.github.io/cards/imgs/select2.jpg";
+
+function shuffle(array) {
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+  return array;
+}
+
+function createCard(card, index) {
+  return `
+    <div style='display:inline-block;margin:8px;' onclick='flipCard(\${index})'>
+      <img src="\${backImage}" id='img-\${index}' width='100'>
+      <div id='label-\${index}' style='font-size:11px;display:none;'></div>
+    </div>
+  `;
+}
+
+function flipCard(index) {
+  if (selectedCards.length >= maxSelections || selectedCards.includes(index)) return;
+
+  alert("선택한 카드가 열립니다!! 연세 주타 마스터님께 리딩을 들으셔요!");
+  selectedCards.push(index);
+  const card = shuffledCardData[index];
+  document.getElementById('img-' + index).src = card.이미지;
+  document.getElementById('label-' + index).textContent = labels[selectedCards.length - 1] + ": " + card.이름;
+  document.getElementById('label-' + index).style.display = "block";
+
+  if (selectedCards.length === maxSelections) {
+    showFinalSelection();
+  }
+}
+
+function showFinalSelection() {
+  document.getElementById("title-container").innerHTML = `
+    <h2>🔮 주역 타로 리딩 ✨</h2>
+    <h3>(총운 → 아침운 → 오후운 → 저녁운)</h3>
+  `;
+}
+
+const shuffledCardData = shuffle(cardData.slice());
+const container = document.getElementById("card-container");
+shuffledCardData.forEach((card, index) => {
+  container.innerHTML += createCard(card, index);
+});
+</script>
+</body>
+</html>
